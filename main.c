@@ -3,25 +3,50 @@
 #include <stdio.h>
 #include <curses.h>
 #include "surface.h"
-
-int point[WIN_COLS][WIN_LINES];
+#include "parameter.h"
+#include "move.h"
 
 int InitColor();
 
 int main()
 {
     int i,j;
-
+    int key;
     initscr();
     if(InitColor() != 0){
         endwin();
         exit(1);
     }
+    keypad(stdscr,TRUE);
+    noecho();
+    leaveok(stdscr,FALSE);
 
     InitSurface();
     ShowSurface();
+
+    key = getch();
+    while(key != ERR && key != 'q'){
+        switch(key){
+        case KEY_RIGHT:
+            MoveRight();
+            break;
+        case KEY_LEFT:
+            MoveLeft();
+            break;
+        case KEY_UP:
+            MoveUp();
+            break;
+        case KEY_DOWN:
+            MoveDown();
+            break;
+        default:
+            break;
+        }
+        refresh();
+        key = getch();
+    }
+    
     refresh();
-    sleep(5);
     endwin();
     exit(0);
 }
