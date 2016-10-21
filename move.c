@@ -8,9 +8,12 @@ extern int elfpoint_x;
 extern int elfpoint_y;
 extern int elftemp;
 
-void MoveRight(){
+void Elftemp();
+
+void MoveRight()
+{
     if(elfpoint_x < WIN_COLS-1){
-        point[elfpoint_x][elfpoint_y] = elftemp;
+        Elftemp();
         elfpoint_x++;
         elftemp = point[elfpoint_x][elfpoint_y];
         point[elfpoint_x][elfpoint_y] = 2;
@@ -18,9 +21,10 @@ void MoveRight(){
     }
 }
 
-void MoveLeft(){
+void MoveLeft()
+{
     if(elfpoint_x > 0){
-        point[elfpoint_x][elfpoint_y] = elftemp;
+        Elftemp();
         elfpoint_x--;
         elftemp = point[elfpoint_x][elfpoint_y];
         point[elfpoint_x][elfpoint_y] = 2;
@@ -30,7 +34,7 @@ void MoveLeft(){
 
 void MoveDown(){
     if(elfpoint_y < WIN_LINES-1){
-        point[elfpoint_x][elfpoint_y] = elftemp;
+        Elftemp();
         elfpoint_y++;
         elftemp = point[elfpoint_x][elfpoint_y];
         point[elfpoint_x][elfpoint_y] = 2;
@@ -38,12 +42,22 @@ void MoveDown(){
     }
 }
 
-void MoveUp(){
-     if(elfpoint_y > 0){
-        point[elfpoint_x][elfpoint_y] = elftemp;
+void MoveUp()
+{
+    if(elfpoint_y > 0)
+    {
+        Elftemp();
         elfpoint_y--;
         elftemp = point[elfpoint_x][elfpoint_y];
         point[elfpoint_x][elfpoint_y] = 2;
         ShowSurface();
-     }
+    }
+}
+
+void Elftemp()
+{
+    if(elftemp == 1)
+        point[elfpoint_x][elfpoint_y] = elftemp;
+    else
+        point[elfpoint_x][elfpoint_y] = 4;
 }

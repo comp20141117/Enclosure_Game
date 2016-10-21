@@ -27,8 +27,8 @@ void ShowSurface()
     int i,j;
     int grey;
     int lightblue;
-    init_color(lightblue,0,0,99);
-    init_color(grey,119,136,153);
+    init_color(lightblue,84,255,159);
+    init_color(grey,109,136,153);
     init_pair(1,COLOR_WHITE,COLOR_BLUE);
     init_pair(0,COLOR_WHITE,grey);
     init_pair(2,COLOR_WHITE,COLOR_RED);
