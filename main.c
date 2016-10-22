@@ -7,7 +7,6 @@
 #include "move.h"
 
 int InitColor();
-void Print(char *);
 
 int main()
 {
@@ -45,7 +44,6 @@ int main()
         default:
             break;
         }
-        refresh();
         key = getch();
     }
     
@@ -65,16 +63,4 @@ int InitColor()
         return 1;
     }
     return 0;
-}
-
-void Print(char *str)
-{
-    WINDOW *new_ptr;
-    new_ptr = newwin(9,30,10,29);
-    box(new_ptr,'|','-');
-    mvwprintw(new_ptr,4,5,str);
-    touchwin(new_ptr);
-    wrefresh(new_ptr);
-    sleep(2);
-    delwin(new_ptr);
 }

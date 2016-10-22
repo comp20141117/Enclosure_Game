@@ -3,5 +3,6 @@
 
 void InitSurface();
 void ShowSurface();
+void Print(char *);
 
 #endif
