@@ -28,15 +28,11 @@ void InitSurface()
 void ShowSurface()
 {
     int i,j;
-    int grey;
-    int lightblue;
-    init_color(lightblue,84,255,159);
-    init_color(grey,109,136,153);
     init_pair(1,COLOR_WHITE,COLOR_BLUE);
-    init_pair(0,COLOR_WHITE,grey);
+    init_pair(0,COLOR_WHITE,COLOR_BLACK);
     init_pair(2,COLOR_WHITE,COLOR_RED);
     init_pair(3,COLOR_WHITE,COLOR_YELLOW);
-    init_pair(4,COLOR_WHITE,lightblue);
+    init_pair(4,COLOR_WHITE,COLOR_CYAN);
 
      for(i = 0; i != WIN_COLS; i++)
         for(j = 0; j != WIN_LINES; j++){

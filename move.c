@@ -3,6 +3,8 @@
 #include "surface.h"
 #include <curses.h>
 
+#define L (WIN_COLS * WIN_LINES)
+
 extern int point[WIN_COLS][WIN_LINES];
 extern int elfpoint_x;
 extern int elfpoint_y;
@@ -10,6 +12,61 @@ extern int elftemp;
 extern int direct;
 
 int temp = -1;
+int p[L][2] = {0};
+
+void Resetp()
+{
+    int i;
+    for(i = 0 ; i != L; i++)
+        p[i][0] = p[i][1] = 0;
+}
+
+void Searchp(){
+    int length;
+    int i = 0;
+    int x,y;
+    int a,b;  //random point
+    Resetp();
+    //search new path
+    for(x = 0 ; x != WIN_COLS; x++)
+        for(y = 0; y != WIN_LINES; y++){
+            if(point[x][y] == 4){
+                p[i][0] = x;
+                p[i][1] = y;
+                i++;
+            }
+        }
+    length = i;
+/*    //search a random point
+    for(i = 0; ;i++){
+        x = p[i][0];
+        y = p[i][1];
+        if(point[++x][y] == 0){
+            a = x;
+            b = y;
+            break;
+        }else if(point[--x][++y] == 0){
+            a = x;
+            b = y;
+            break;
+        }else if(point[--x][--y] == 0){
+            a = x;
+            b = y;
+            break;
+        }else if(point[++x][--y] == 0){ 
+            a = x;
+            b = y;
+            break;
+        }else
+            continue;
+            }*/
+
+    //cover path
+    for(i = 0; i != length; i++){
+        point[(p[i][0])][(p[i][1])] = 1;
+    }
+    point[(p[i][0])][(p[i][1])] = 1;
+}
 
 void MoveRight()
 {
@@ -23,8 +80,9 @@ void MoveRight()
         temp = point[elfpoint_x][elfpoint_y];
         elfpoint_x++;
         elftemp = point[elfpoint_x][elfpoint_y];
-        if((elftemp == 1 || elftemp == 4) && temp == 4)
-            Print("Yes");
+        if((elftemp == 1 || elftemp == 4) && temp == 4){
+            Searchp();
+        }
         point[elfpoint_x][elfpoint_y] = 2;
         ShowSurface();
     }
@@ -43,8 +101,9 @@ void MoveLeft()
         temp = point[elfpoint_x][elfpoint_y];
         elfpoint_x--;
         elftemp = point[elfpoint_x][elfpoint_y];
-        if((elftemp == 1 || elftemp == 4) && temp == 4)
-            Print("Yes");
+        if((elftemp == 1 || elftemp == 4) && temp == 4){
+            Searchp();
+        }
         point[elfpoint_x][elfpoint_y] = 2;
         ShowSurface();
     }
@@ -62,8 +121,9 @@ void MoveDown(){
         temp = point[elfpoint_x][elfpoint_y];
         elfpoint_y++;
         elftemp = point[elfpoint_x][elfpoint_y];
-        if((elftemp == 1 || elftemp == 4) && temp == 4)
-            Print("Yes");
+        if((elftemp == 1 || elftemp == 4) && temp == 4){
+            Searchp();
+        }
         point[elfpoint_x][elfpoint_y] = 2;
         ShowSurface();
     }
@@ -83,8 +143,9 @@ void MoveUp()
         temp = point[elfpoint_x][elfpoint_y];
         elfpoint_y--;
         elftemp = point[elfpoint_x][elfpoint_y];
-        if((elftemp == 1 || elftemp == 4) && temp == 4)
-            Print("Yes");
+        if((elftemp == 1 || elftemp == 4) && temp == 4){
+            Searchp();
+        }
         point[elfpoint_x][elfpoint_y] = 2;
         ShowSurface();
     }
