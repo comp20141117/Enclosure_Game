@@ -5,6 +5,9 @@
 #include "surface.h"
 #include "parameter.h"
 #include "move.h"
+#include "ghost.h"
+
+extern int life;
 
 int InitColor();
 
@@ -23,11 +26,13 @@ int main()
 
     InitSurface();
     ShowSurface();
+    Resetp();
     Print("press 'q' to quit");
-
+    halfdelay(1);
     touchwin(stdscr);
     key = getch();
-    while(key != ERR && key != 'q'){
+
+    while(key != 'q' && life != 0){
         switch(key){
         case KEY_RIGHT:
             MoveRight();
@@ -44,7 +49,14 @@ int main()
         default:
             break;
         }
+        if(WinSurface()){
+            InitSurface();
+            ShowSurface();
+            Print("You cool guy!");
+            break;
+        }
         key = getch();
+        Moveghost();
     }
     
     refresh();

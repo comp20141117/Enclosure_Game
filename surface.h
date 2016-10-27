@@ -4,5 +4,7 @@
 void InitSurface();
 void ShowSurface();
 void Print(char *);
+int WinSurface();
+void Resetp();
 
 #endif

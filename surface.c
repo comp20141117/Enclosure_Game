@@ -8,6 +8,13 @@ extern int elfpoint_x;
 extern int elfpoint_x;
 extern int elftemp;
 extern int direct;
+extern int x_1;
+extern int y_1;
+extern int x_2;
+extern int y_2;
+extern int d_1;
+extern int d_2;
+extern int life;
 
 void InitSurface()
 {
@@ -16,13 +23,24 @@ void InitSurface()
         for(j = 0; j != WIN_LINES; j++){
             if(i == 0 || i == WIN_COLS-1 || j == 0 || j == WIN_LINES-1)                point[i][j] = 1; //blue
             else
-                point[i][j] = 0; //grey
+                point[i][j] = 0; //black
         }
     elfpoint_x = 0;
     elfpoint_y = 0;
     elftemp = 1;
     direct = 0;
     point[elfpoint_x][elfpoint_y] = 2; //red
+    x_1 = 30;
+    y_1 = 10;
+    x_2 = 60;
+    y_2 = 20;
+    point[x_1][y_1] = 3;
+    point[x_2][y_2] = 3;
+    d_1 = 4;
+    d_2 = 2;
+    temp_1 = 0;
+    temp_2 = 0;
+    life = 3;
 }
 
 void ShowSurface()
@@ -52,4 +70,18 @@ void Print(char *str)
     wrefresh(new_ptr);
     sleep(2);
     delwin(new_ptr);
+}
+
+int WinSurface()
+{
+    int count = 0;
+    int i,j;
+    for(i = 0; i < WIN_LINES; i++)
+        for(j = 0; j < WIN_COLS; j++)
+            if(point[i][j] == 1)
+                count++;
+    if(count > (L * 0.8))
+        return 1;
+    else
+        return 0;
 }

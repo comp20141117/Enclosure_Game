@@ -5,5 +5,6 @@ void MoveRight();
 void MoveLeft();
 void MoveUp();
 void MoveDown();
-
+void Resetp();
+    
 #endif
