@@ -12,7 +12,11 @@ extern int direct;
 extern int p[L][2];
 extern int p_x;
 
+int fill[L][2];
+int f = 0;
 int temp = -1;
+
+void Fill(int i, int j);
 
 void Resetp()
 {
@@ -22,71 +26,80 @@ void Resetp()
     p_x = 0;
 }
 
+void Resetfill()
+{
+    int i;
+    for(i = 0; i < L; i++)
+        fill[i][0] = fill[i][1] = 0;
+    f = 0;
+}
+
+int isfill(int i, int j)
+{
+    int k;
+    if(f == 0)
+        return 0;
+    for(k = 0; k < f; k++){
+        if(fill[k][0] == i && fill[k][1] == j)
+            return 1;
+    }
+    return 0;
+}
+
 void Searchp()
 {
+    int x,y;
+    int i,j;
     int length = p_x;
-    int i = 0;
-    int a,b;
-    int x = p[0][0];
-    int y = p[0][1];
-    int m = p[length-1][0];
-    int n = p[length-1][1];
-    
-    for(i = 0; i < length; i++){
-         a = p[i][0];
-         b = p[i][1];
-         if(y == n){
-             if(y < WIN_LINES/2){
-                 while(b > 0){
-                     point[a][b] = 1;
-                     b--;
-                 }
-             }else{
-                 while(b < WIN_LINES){
-                     point[a][b] = 1;
-                     b++;
-                 }
-             }
-         }else if(x == m){
-             if(x < WIN_COLS/2){
-                 while(a > 0){
-                     point[a][b] = 1;
-                     a--;
-                 }
-             }else{
-                 while(a < WIN_COLS){
-                     point[a][b] = 1;
-                     a++;
-                 }
-             }
-         }else{
-             if(y + n < WIN_LINES){
-                 while(b > 0){
-                     point[a][b] = 1;
-                     b--;
-                 }
-             }else if(y + n > WIN_LINES){
-                 while(b < WIN_LINES){
-                     point[a][b] = 1;
-                     b++;
-                 }
-             }else{
-                 if(x + m < WIN_COLS){
-                     while(a > 0){
-                         point[a][b] = 1;
-                         a--;
-                     }
-                 }else{
-                     while(a < WIN_COLS){
-                         point[a][b] = 1;
-                         a++;
-                     }
-                 }
-             }
-         }
+    int num = 0;
+    Resetfill();
+    for(i = 0; i < WIN_COLS; i++)
+        for(j = 0; j < LINES; j++)
+            if(point[i][j] == 0)
+                num++;
+        
+    for(i = 0; i < WIN_COLS; i++)
+        for(j = 0; j < LINES; j++)
+            if(point[i][j] == 0)
+                x = i, y = j;
+
+    Fill(x,y);
+    if(f == num)
+        Resetfill();
+    else if(f > num/2){
+        for(i = 0; i < WIN_COLS; i++)
+            for(j = 0; j < WIN_LINES; j++)
+                if(point[i][j] == 0 && !isfill(i,j))
+                    x = i,y = j;
+        Resetfill();
+        Fill(x,y);
     }
+
+    for(i = 0; i < f; i++){
+        point[fill[i][0]][fill[i][1]] = 1;
+        }
+
     
+    for(i = 0; i < length; i++)
+        point[p[i][0]][p[i][1]] = 1;
     Resetp();
+}
+
+void Fill(int i, int j)
+{
+    if(point[i][j] == 0 && !isfill(i,j)){
+        fill[f][0] = i;
+        fill[f][1] = j;
+        f++;
+        Fill(i,j+1);
+        Fill(i+1,j);
+        Fill(i-1,j);
+        Fill(i,j+1);
+        Fill(i+1,j+1);
+        Fill(i+1,j-1);
+        Fill(i-1,j+1);
+        Fill(i-1,j-1);
+    }
 }
 
 void MoveRight()
@@ -196,3 +209,4 @@ void MoveUp()
     }
     direct = 1;
 }
+
