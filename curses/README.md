@@ -1,13 +1,13 @@
+# Enclosure Game
 
-Enclosure_Game is a game based on curses library by c language.
+A linux console game written in C.
 
-Rules of the game:
-      In game,You need control a elf to winning more area of screen,
-The evil elf will to blocks you,And you must avoid them,When you
-winning 80% of the screen,You will win the game.
+## How to play
 
-Control of the game:
-     Key_Up
-     Key_Down 
-     Key_Left
-     Key_Right
+In the game, you need to control yourself, an elf, drawing lines, closing more and more areas, until (almost) the whole screen has been occupied.
+
+The evil elves always want to break your line to make you die, so be careful. Note they can only move in the remaining spaces, and closing them will kill them, so try.
+
+## Controls
+
+Arrow Keys
