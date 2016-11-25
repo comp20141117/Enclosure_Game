@@ -28,11 +28,16 @@ int main()
     ShowSurface();
     Resetp();
     Print("press 'q' to quit");
+
+    // if no key is pressing when calling getch(),
+    // wait 0.1 second at most.
     halfdelay(1);
     touchwin(stdscr);
+
     key = getch();
 
     while(key != 'q' && life != 0){
+        // player move core
         switch(key){
         case KEY_RIGHT:
             MoveRight();
@@ -50,12 +55,14 @@ int main()
             break;
         }
         if(WinSurface()){
+            // here recalling these functions finish a `new-game' operation
             InitSurface();
             ShowSurface();
             Print("You cool guy!");
             break;
         }
         key = getch();
+        // enemies move core
         Moveghost();
     }
     

@@ -19,21 +19,28 @@ extern int life;
 void InitSurface()
 {
     int i,j;
+    // draw border (blue)
     for(i = 0; i != WIN_COLS; i++)
         for(j = 0; j != WIN_LINES; j++){
-            if(i == 0 || i == WIN_COLS-1 || j == 0 || j == WIN_LINES-1)                point[i][j] = 1; //blue
+            if(i == 0 || i == WIN_COLS-1 || j == 0 || j == WIN_LINES-1)
+                point[i][j] = 1; //blue
             else
                 point[i][j] = 0; //black
         }
+    // player coordinate
     elfpoint_x = 0;
     elfpoint_y = 0;
     elftemp = 1;
     direct = 0;
+    // render player (a red block)
+    // 2 is the color-pair index
     point[elfpoint_x][elfpoint_y] = 2; //red
+    // coordinate of two enemies
     x_1 = 30;
     y_1 = 10;
     x_2 = 60;
     y_2 = 20;
+    // render enemies
     point[x_1][y_1] = 3;
     point[x_2][y_2] = 3;
     d_1 = 4;
@@ -43,6 +50,8 @@ void InitSurface()
     life = 3;
 }
 
+// render the off-screen buffer
+// question: do we have to call init_pair() every time?
 void ShowSurface()
 {
     int i,j;
@@ -60,6 +69,8 @@ void ShowSurface()
     refresh();
 }
 
+// create a small curses window on the center of screen
+// and show some message
 void Print(char *str)
 {
     WINDOW *new_ptr;
@@ -72,6 +83,8 @@ void Print(char *str)
     delwin(new_ptr);
 }
 
+// predicate function judging whether the player win
+// (you shouldn't check the surface to judge)
 int WinSurface()
 {
     int count = 0;

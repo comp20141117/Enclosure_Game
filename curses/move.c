@@ -9,6 +9,12 @@ extern int elfpoint_x;
 extern int elfpoint_y;
 extern int elftemp;
 extern int direct;
+
+// p(= path ?) is the path list
+// [0] => X coordinate
+// [1] => Y coordinate
+// p_x: the index of new item
+//
 extern int p[L][2];
 extern int p_x;
 
@@ -18,6 +24,8 @@ int temp = -1;
 
 void Fill(int i, int j);
 
+// clear the path
+// called when the path is broken by enemies
 void Resetp()
 {
     int i;
@@ -105,25 +113,41 @@ void Fill(int i, int j)
 void MoveRight()
 {
     if(elfpoint_x < WIN_COLS-1){
+        // point=4 cyan
+        // point=1 blue
+        
+        // try to move in reversed direction(why this cause the path reset?)
+        // or
+        // 
         if(direct == 3 || elftemp == 4){
             point[elfpoint_x][elfpoint_y] = 1;
             Resetp();
         }
         else if(elftemp == 1)
+            // last is blue
+            // (why don't use 1 ?)
             point[elfpoint_x][elfpoint_y] = elftemp;
         else{
+            // draw line, then add the new point to path list
             point[elfpoint_x][elfpoint_y] = 4;
             p[p_x][0] = elfpoint_x;
             p[p_x][1] = elfpoint_y;
             p_x++;
         }
+        // temp: the block in old location
+        // elftemp: the block in new location
         temp = point[elfpoint_x][elfpoint_y];
         elfpoint_x++;
         elftemp = point[elfpoint_x][elfpoint_y];
+        // if the new point is blue or ?cyan and
+        //    the old point is cyan
+        // try fill the region
         if((elftemp == 1 || elftemp == 4) && temp == 4){
             Searchp();
         }
         point[elfpoint_x][elfpoint_y] = 2;
+
+        // FIXME: shouldn't update screen here
         ShowSurface();
     }
     direct = 4;
